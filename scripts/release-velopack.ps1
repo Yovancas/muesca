@@ -27,7 +27,10 @@ param(
     [string]$BridgeRepo = '',
     # Remoto git donde vive el código (HEAD tiene que ser <remoto>/main al subir). Desde la 1.0 el código es privado
     # (LICENSE) y el repositorio público solo distribuye: se publica desde el remoto privado.
-    [string]$SourceRemote = 'origin'
+    [string]$SourceRemote = 'origin',
+    # Commit del repositorio de las releases al que apunta el tag. Vacío: HEAD (cuando el código se publica en el mismo
+    # repositorio). Si el público es una copia sin la historia del privado, el commit de esa copia.
+    [string]$TargetCommitish = ''
 )
 $ErrorActionPreference = 'Stop'
 Set-StrictMode -Version Latest
@@ -406,7 +409,7 @@ if ([string]::IsNullOrWhiteSpace($token)) { throw 'Hace falta un token de GitHub
 
 # a) vpk crea la release como BORRADOR (sin --publish): nadie la ve hasta que esté firmada.
 & $vpk upload github --repoUrl $RepoUrl --token $token --channel $Channel --outputDir $outDir `
-    --tag $tag --releaseName $tag --targetCommitish $head
+    --tag $tag --releaseName $tag --targetCommitish $(if ($TargetCommitish) { $TargetCommitish } else { $head })
 if ($LASTEXITCODE) { throw 'vpk upload github falló' }
 
 $tmp = Join-Path ([IO.Path]::GetTempPath()) "claudebar-release-$([guid]::NewGuid().ToString('N'))"
