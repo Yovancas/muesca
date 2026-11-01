@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Muesca, edición de la Microsoft Store (MSIX). Ver docs/msix.md y docs/store-submission.md.
+
+  MARCADORES (los sustituye build-msix.ps1; no se commitean valores reales):
+    __IDENTITY_NAME__       Partner Center › Muesca › Product management › Product identity › Package/Identity/Name
+    __IDENTITY_PUBLISHER__  …el mismo sitio › Package/Identity/Publisher (CN=XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX)
+    __VERSION__             -Version del script en cuatro partes, la última 0 (la Store la reserva) y la primera >= 1
+    __ARCH__                x64 o arm64 (un paquete por arquitectura dentro del .msixbundle)
+
+  PublisherDisplayName tiene que ser EXACTAMENTE el de Package/Properties/PublisherDisplayName de esa misma página
+  (el nombre de la cuenta de Partner Center); aquí va «Bekay».
+
+  Capacidades: solo runFullTrust (app de escritorio Win32 de integridad media). Nada más hace falta: las de red o archivos
+  son para apps en AppContainer, y la compra (Windows.Services.Store) no pide ninguna.
+-->
+<Package
+  xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10"
+  xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10"
+  xmlns:uap3="http://schemas.microsoft.com/appx/manifest/uap/windows10/3"
+  xmlns:desktop="http://schemas.microsoft.com/appx/manifest/desktop/windows10"
+  xmlns:rescap="http://schemas.microsoft.com/appx/manifest/foundation/windows10/restrictedcapabilities"
+  IgnorableNamespaces="uap uap3 desktop rescap">
+
+  <Identity
+    Name="__IDENTITY_NAME__"
+    Publisher="__IDENTITY_PUBLISHER__"
+    Version="__VERSION__"
+    ProcessorArchitecture="__ARCH__" />
+
+  <Properties>
+    <DisplayName>Muesca</DisplayName>
+    <PublisherDisplayName>Bekay</PublisherDisplayName>
+    <Logo>Assets\StoreLogo.png</Logo>
+  </Properties>
+
+  <Dependencies>
+    <!-- El mínimo de la app (SupportedOSPlatformVersion del csproj): Windows 10 1809. -->
+    <TargetDeviceFamily Name="Windows.Desktop" MinVersion="10.0.17763.0" MaxVersionTested="10.0.26100.0" />
+  </Dependencies>
+
+  <!-- Los 8 idiomas de la app (Localization.Languages). Cada uno necesita su ficha en Partner Center: store/listing/. -->
+  <Resources>
+    <Resource Language="en-US" />
+    <Resource Language="es-ES" />
+    <Resource Language="nl-NL" />
+    <Resource Language="fr-FR" />
+    <Resource Language="de-DE" />
+    <Resource Language="ja-JP" />
+    <Resource Language="ko-KR" />
+    <Resource Language="zh-TW" />
+  </Resources>
+
+  <Applications>
+    <!-- La app de la bandeja y el notch. -->
+    <Application Id="Muesca" Executable="ClaudeBarWin.exe" EntryPoint="Windows.FullTrustApplication">
+      <uap:VisualElements
+        DisplayName="Muesca"
+        Description="Claude Code quota, sessions and permissions in a notch at the top of your screen."
+        BackgroundColor="transparent"
+        Square150x150Logo="Assets\Square150x150Logo.png"
+        Square44x44Logo="Assets\Square44x44Logo.png">
+        <uap:DefaultTile Wide310x150Logo="Assets\Wide310x150Logo.png" />
+        <uap:SplashScreen Image="Assets\SplashScreen.png" BackgroundColor="#0A0A12" />
+      </uap:VisualElements>
+      <Extensions>
+        <!-- «Iniciar con Windows» (StoreEdition.StartupTaskId). Apagada: solo se enciende si el usuario lo elige en la
+             bienvenida o en Ajustes (StoreStartupTask.Enable, sin diálogo en una app de escritorio). -->
+        <desktop:Extension
+          Category="windows.startupTask"
+          Executable="ClaudeBarWin.exe"
+          EntryPoint="Windows.FullTrustApplication">
+          <desktop:StartupTask TaskId="MuescaStartup" Enabled="false" DisplayName="Muesca" />
+        </desktop:Extension>
+      </Extensions>
+    </Application>
+
+    <!-- El helper de los hooks de Claude Code. Sin entrada en Inicio; Claude Code lo lanza por su alias
+         (StoreEdition.HelperAlias), que Windows deja en %LOCALAPPDATA%\Microsoft\WindowsApps. MSIX virtualiza AppData,
+         así que no se copia fuera del paquete (docs/msix.md). -->
+    <Application Id="Helper" Executable="claudebar-helper.exe" EntryPoint="Windows.FullTrustApplication">
+      <uap:VisualElements
+        DisplayName="Muesca helper"
+        Description="Connects Claude Code hooks and status line to Muesca."
+        BackgroundColor="transparent"
+        Square150x150Logo="Assets\Square150x150Logo.png"
+        Square44x44Logo="Assets\Square44x44Logo.png"
+        AppListEntry="none" />
+      <Extensions>
+        <uap3:Extension
+          Category="windows.appExecutionAlias"
+          Executable="claudebar-helper.exe"
+          EntryPoint="Windows.FullTrustApplication">
+          <uap3:AppExecutionAlias>
+            <desktop:ExecutionAlias Alias="muesca-helper.exe" />
+          </uap3:AppExecutionAlias>
+        </uap3:Extension>
+      </Extensions>
+    </Application>
+  </Applications>
+
+  <Capabilities>
+    <rescap:Capability Name="runFullTrust" />
+  </Capabilities>
+</Package>

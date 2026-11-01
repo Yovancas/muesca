@@ -20,9 +20,10 @@
 </p>
 
 <p align="center">
+  <a href="https://github.com/Yovancas/muesca/actions/workflows/ci.yml"><img alt="CI" src="https://github.com/Yovancas/muesca/actions/workflows/ci.yml/badge.svg"></a>
   <a href="https://github.com/Yovancas/muesca/releases/latest"><img alt="Última release" src="https://img.shields.io/github/v/release/Yovancas/muesca?label=release&color=7B4DFF"></a>
   <a href="https://github.com/Yovancas/muesca/releases"><img alt="Descargas" src="https://img.shields.io/github/downloads/Yovancas/muesca/total?label=descargas&color=1F6FFF"></a>
-  <a href="LICENSE"><img alt="Licencia: gratis, propietaria" src="https://img.shields.io/badge/licencia-gratis%20%C2%B7%20propietaria-blue.svg"></a>
+  <a href="LICENSE"><img alt="Licencia: código disponible" src="https://img.shields.io/badge/licencia-c%C3%B3digo%20disponible-blue.svg"></a>
   <img alt="Hecho con .NET 9" src="https://img.shields.io/badge/.NET-9-512BD4?logo=dotnet&logoColor=white">
 </p>
 
@@ -62,6 +63,7 @@ propia sesión de Claude Code ya tiene.</sub></p>
 - [Cómo funcionan los datos](#cómo-funcionan-los-datos)
 - [Instalación](#instalación) · [Requisitos](#requisitos) · [Configuración](#configuración)
 - [Sesiones en vivo y hooks](#sesiones-en-vivo-y-hooks)
+- [Compilar desde el código](#compilar-desde-el-código)
 - [Desinstalar](#desinstalar) · [Notas y preguntas frecuentes](#notas-y-preguntas-frecuentes)
 
 </details>
@@ -384,6 +386,46 @@ nuevo, así que tus hooks de antes siguen funcionando.
 
 ---
 
+## Compilar desde el código
+
+```powershell
+git clone https://github.com/Yovancas/muesca.git
+cd muesca
+.\run.ps1            # compilar + ejecutar (debug)
+dotnet test ClaudeBarWin.sln -c Release
+```
+
+El ensamblado, los namespaces y el exe siguen siendo `ClaudeBarWin` (internos, ver [docs/branding.md](docs/branding.md)).
+Las releases se hacen con `scripts/release-velopack.ps1` (no sube nada sin `-Upload`; la clave privada Ed25519 nunca
+está en el repo). Detalles: [docs/velopack-migracion.md](docs/velopack-migracion.md).
+
+### Comandos útiles
+
+Usan **datos sintéticos** y nunca tocan tu cuota real.
+
+| Comando | Qué hace |
+|---|---|
+| `ClaudeBarWin.exe --report` | Cuota + ritmo + gasto actuales en la consola y en `%TEMP%\claudebar-report.txt` |
+| `ClaudeBarWin.exe --render-demo` | Capturas del panel (`dashboard-dark` / `-light` / `-cli`, `tray-icons`) |
+| `ClaudeBarWin.exe --render-test` | `data` / `settings` / `mascot` / `tray-badges` + fotogramas de las microinteracciones |
+| `ClaudeBarWin.exe --render-gif` | Secuencias de fotogramas para los GIF del panel, en `%TEMP%\claudebar-gif` |
+| `ClaudeBarWin.exe --tap-test` | Diagnóstico del *Origen de la cuota*, **sin llamar a la API** |
+| `ClaudeBarWin.exe --hook-test` | Mueve la tubería de las sesiones en vivo con eventos falsos *(con una instancia abierta)* |
+
+### Capturas
+
+Las del notch, la bienvenida, el tutorial y el Pro salen de los painters de verdad, a 2x, en los tests:
+
+```powershell
+$env:SHOTS_DIR = "C:\shots"; dotnet test ClaudeBarWin.Tests --filter OnboardingShotsTests
+Copy-Item C:\shots\readme\* assets\readme -Recurse -Force    # las de este README
+```
+
+En `SHOTS_DIR\splash\` están los fotogramas de la entrada para `installer/assets/splash.gif`, y en `SHOTS_DIR\marca\` el
+logo vectorial a los tamaños de `branding/`.
+
+---
+
 ## Desinstalar
 
 - *Configuración › Aplicaciones › Muesca › Desinstalar*. Quita los hooks de Muesca, restaura tu statusline si *Origen
@@ -424,9 +466,10 @@ de [Icons8](https://icons8.com) (ver [THIRD-PARTY-NOTICES.md](THIRD-PARTY-NOTICE
 
 ## Licencia
 
-Muesca es **gratis** y **propietaria** desde la 1.0: ver [LICENSE](LICENSE). El Pro se desbloquea con una
-compra en la Microsoft Store. El código de Muesca 1.0 y posteriores es privado.
+Desde la 1.0, el código de Muesca es **público pero no libre** ([LICENSE](LICENSE)): puedes leerlo,
+modificarlo y compilarte tu propia versión **para tu uso**, pero **no distribuirlo ni venderlo**, modificado o no, y
+una versión modificada no puede desbloquear el Pro sin licencia. El Pro se compra en la Microsoft Store.
 
-Las versiones de *ClaudeBar for Windows* hasta la **0.3.9** fueron de código abierto con licencia MIT y lo siguen
-siendo en [Yovancas/claudebar-win](https://github.com/Yovancas/claudebar-win). El código del servidor del contador
-anónimo de uso es público, por transparencia, en [server/stats-worker](server/stats-worker).
+Las versiones de *ClaudeBar for Windows* hasta la **0.3.9** fueron MIT y lo siguen siendo en
+[Yovancas/claudebar-win](https://github.com/Yovancas/claudebar-win). El servidor del contador anónimo de uso
+([server/stats-worker](server/stats-worker)) es MIT.

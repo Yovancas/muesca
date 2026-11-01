@@ -1,0 +1,32 @@
+version: 2
+updates:
+  # Paquetes NuGet (versiones centralizadas en Directory.Packages.props)
+  - package-ecosystem: nuget
+    directory: "/"
+    schedule:
+      interval: weekly
+      day: monday
+    open-pull-requests-limit: 5
+    commit-message:
+      prefix: "chore(deps)"
+    groups:
+      tests:
+        patterns:
+          - "xunit*"
+          - "Microsoft.NET.Test.Sdk"
+          - "coverlet*"
+      # Velopack: al subirlo, vpk (scripts/release-velopack.ps1) tiene que ir a la misma versión.
+      velopack:
+        patterns:
+          - "Velopack"
+          - "NetSparkleUpdater.Chaos.NaCl"
+
+  # Acciones de los workflows de GitHub Actions
+  - package-ecosystem: github-actions
+    directory: "/"
+    schedule:
+      interval: weekly
+      day: monday
+    open-pull-requests-limit: 5
+    commit-message:
+      prefix: "chore(ci)"

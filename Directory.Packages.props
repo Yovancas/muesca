@@ -1,0 +1,28 @@
+<Project>
+
+  <!-- Gestión central de versiones NuGet: los .csproj declaran <PackageReference Include="..." />
+       SIN Version; la versión vive aquí. Dependabot actualiza este archivo. -->
+  <PropertyGroup>
+    <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
+  </PropertyGroup>
+
+  <!-- App -->
+  <ItemGroup>
+    <PackageVersion Include="Microsoft.Data.Sqlite" Version="9.0.0" />
+    <!-- Instalación y actualizaciones (docs/velopack-migracion.md). vpk, la herramienta de scripts/release-velopack.ps1,
+         tiene que ir en la MISMA versión que este paquete. -->
+    <PackageVersion Include="Velopack" Version="1.2.161" />
+    <!-- Ed25519 para verificar la firma del manifiesto de cada release: la misma librería con la que NetSparkle
+         verificaba las actualizaciones hasta la 0.4 (y la misma clave). -->
+    <PackageVersion Include="NetSparkleUpdater.Chaos.NaCl" Version="0.9.4" />
+  </ItemGroup>
+
+  <!-- Tests -->
+  <ItemGroup>
+    <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="17.11.1" />
+    <PackageVersion Include="xunit" Version="2.9.2" />
+    <PackageVersion Include="xunit.runner.visualstudio" Version="2.8.2" />
+    <PackageVersion Include="coverlet.collector" Version="10.1.0" />
+  </ItemGroup>
+
+</Project>

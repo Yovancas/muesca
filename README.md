@@ -20,9 +20,10 @@
 </p>
 
 <p align="center">
+  <a href="https://github.com/Yovancas/muesca/actions/workflows/ci.yml"><img alt="CI" src="https://github.com/Yovancas/muesca/actions/workflows/ci.yml/badge.svg"></a>
   <a href="https://github.com/Yovancas/muesca/releases/latest"><img alt="Latest release" src="https://img.shields.io/github/v/release/Yovancas/muesca?label=release&color=7B4DFF"></a>
   <a href="https://github.com/Yovancas/muesca/releases"><img alt="Downloads" src="https://img.shields.io/github/downloads/Yovancas/muesca/total?color=1F6FFF"></a>
-  <a href="LICENSE"><img alt="License: free, proprietary" src="https://img.shields.io/badge/license-free%20%C2%B7%20proprietary-blue.svg"></a>
+  <a href="LICENSE"><img alt="License: source-available" src="https://img.shields.io/badge/license-source--available-blue.svg"></a>
   <img alt="Built with .NET 9" src="https://img.shields.io/badge/.NET-9-512BD4?logo=dotnet&logoColor=white">
 </p>
 
@@ -61,6 +62,7 @@ your own Claude Code session already has.</sub></p>
 - [How the data works](#how-the-data-works) · [Privacy & data](#privacy--data)
 - [Install](#install) · [Requirements](#requirements) · [Configuration](#configuration)
 - [Live sessions & hooks](#live-sessions--hooks)
+- [Build from source](#build-from-source)
 - [Uninstall](#uninstall) · [Notes & FAQ](#notes--faq)
 
 </details>
@@ -325,6 +327,7 @@ Download the installer (`ClaudeBar-win-Setup.exe`, Velopack names it after the i
 - **Windows 10 (1809+) / 11, x64**.
 - **Claude Code** (CLI or app) installed and signed in: Muesca reads your local quota, sessions and transcripts.
   Without it there's no quota to show.
+- To build from source: **.NET SDK 9** (a user-local install in `%USERPROFILE%\.dotnet` works, no admin).
 
 ---
 
@@ -373,6 +376,46 @@ name, so your existing hooks keep working.
 
 ---
 
+## Build from source
+
+```powershell
+git clone https://github.com/Yovancas/muesca.git
+cd muesca
+.\run.ps1            # build + run (debug)
+dotnet test ClaudeBarWin.sln -c Release
+```
+
+The assembly, namespaces and exe are still `ClaudeBarWin` (internal, see [docs/branding.md](docs/branding.md)).
+Releases are built with `scripts/release-velopack.ps1` (it uploads nothing without `-Upload`; the Ed25519 private key
+never lives in the repo). Details: [docs/velopack-migracion.md](docs/velopack-migracion.md).
+
+### Useful commands
+
+They use **synthetic data** and never touch your real quota.
+
+| Command | What it does |
+|---|---|
+| `ClaudeBarWin.exe --report` | Current quota + pace + spend to the console and `%TEMP%\claudebar-report.txt` |
+| `ClaudeBarWin.exe --render-demo` | Panel screenshots (`dashboard-dark` / `-light` / `-cli`, `tray-icons`) |
+| `ClaudeBarWin.exe --render-test` | `data` / `settings` / `mascot` / `tray-badges` + microinteraction frames |
+| `ClaudeBarWin.exe --render-gif` | Frame sequences for the panel GIFs, in `%TEMP%\claudebar-gif` |
+| `ClaudeBarWin.exe --tap-test` | *Quota source* diagnostics, **no API call** |
+| `ClaudeBarWin.exe --hook-test` | Drives the live-session pipe with fake events *(needs a running instance)* |
+
+### Screenshots
+
+The notch, welcome, tutorial and Pro screenshots come from the real painters, at 2x, in the tests:
+
+```powershell
+$env:SHOTS_DIR = "C:\shots"; dotnet test ClaudeBarWin.Tests --filter OnboardingShotsTests
+Copy-Item C:\shots\readme\* assets\readme -Recurse -Force    # the ones in this README
+```
+
+`SHOTS_DIR\splash\` has the entrance frames for `installer/assets/splash.gif`, and `SHOTS_DIR\marca\` the vector logo at
+the sizes of `branding/`.
+
+---
+
 ## Uninstall
 
 - *Settings › Apps › Muesca › Uninstall*. It removes Muesca's hooks, restores your status line if *Quota source* was on,
@@ -412,9 +455,10 @@ by [Icons8](https://icons8.com) (see [THIRD-PARTY-NOTICES.md](THIRD-PARTY-NOTICE
 
 ## License
 
-Muesca is **free to use** and **proprietary** since 1.0: see [LICENSE](LICENSE). Pro is unlocked with a
-purchase in the Microsoft Store. The source code of Muesca 1.0 and later is private.
+Muesca is **source-available** since 1.0 ([LICENSE](LICENSE)): the code is public, and you may read it, modify
+it and build your own version **for your own use**, but you may **not distribute it or sell it**, modified or not,
+and a modified version may not unlock Pro without a license. Pro is bought in the Microsoft Store.
 
-The versions of *ClaudeBar for Windows* up to **0.3.9** were open source under the MIT License and remain so at
-[Yovancas/claudebar-win](https://github.com/Yovancas/claudebar-win). The anonymous usage counter's server code is
-public, for transparency, in [server/stats-worker](server/stats-worker).
+The versions of *ClaudeBar for Windows* up to **0.3.9** were MIT and remain so at
+[Yovancas/claudebar-win](https://github.com/Yovancas/claudebar-win). The anonymous usage counter's server
+([server/stats-worker](server/stats-worker)) is MIT.

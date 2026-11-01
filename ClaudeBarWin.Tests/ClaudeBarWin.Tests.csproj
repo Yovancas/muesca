@@ -1,0 +1,56 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <!-- Mismo TFM que la app (F5): si no, la referencia al proyecto deja de ser compatible. -->
+    <TargetFramework>net9.0-windows10.0.19041.0</TargetFramework>
+    <SupportedOSPlatformVersion>10.0.17763.0</SupportedOSPlatformVersion>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UseWindowsForms>true</UseWindowsForms>
+    <IsPackable>false</IsPackable>
+    <IsTestProject>true</IsTestProject>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" />
+    <PackageReference Include="xunit" />
+    <PackageReference Include="xunit.runner.visualstudio" />
+    <PackageReference Include="coverlet.collector" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ClaudeBarWin.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- El helper calcula las mismas rutas que la app con el archivo compartido (Shared/PackageShared.cs): sus dos clases de
+         rutas se compilan también aquí para compararlas con las de la app (SharedSourcesTests). -->
+    <Compile Include="..\ClaudeBarWin.Helper\HelperPaths.cs" Link="HelperSources\HelperPaths.cs" />
+    <Compile Include="..\ClaudeBarWin.Helper\HelperPackage.cs" Link="HelperSources\HelperPackage.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- ImplicitUsings no inyecta Xunit con net9.0-windows*; lo hacemos global para todos los tests. -->
+    <Using Include="Xunit" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- T13b: golden file con la respuesta real de models.dev para los tests del catálogo. -->
+    <None Include="TestData\**" CopyToOutputDirectory="PreserveNewest" />
+    <!-- El instalador (Inno Setup) repite en Pascal los perfiles y las recomendaciones: InstallerScriptTests lo vigila. -->
+    <None Include="..\installer\ClaudeBarWin.iss" Link="TestData\ClaudeBarWin.iss" CopyToOutputDirectory="PreserveNewest" />
+    <!-- Velopack (v0.5): el script de publicación y el puente desde Inno repiten nombres y la clave pública: ReleaseScriptTests. -->
+    <None Include="..\scripts\release-velopack.ps1" Link="TestData\release-velopack.ps1" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="..\installer\bridge\ClaudeBarWin-Bridge.iss" Link="TestData\ClaudeBarWin-Bridge.iss" CopyToOutputDirectory="PreserveNewest" />
+    <!-- Edición de la Store (MSIX): manifiesto, recursos y script repiten nombres de la app: MsixPackageTests. -->
+    <None Include="..\installer\msix\Package.appxmanifest" Link="TestData\msix\Package.appxmanifest" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="..\installer\msix\build-msix.ps1" Link="TestData\msix\build-msix.ps1" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="..\installer\msix\Assets\*.png" LinkBase="TestData\msix\Assets" CopyToOutputDirectory="PreserveNewest" />
+    <!-- La ficha de la Store, un archivo por idioma de la app: StoreListingTests vigila los límites de Partner Center. -->
+    <None Include="..\store\listing\*.md" LinkBase="TestData\store-listing" CopyToOutputDirectory="PreserveNewest" />
+    <!-- La app y el helper compilan el mismo archivo compartido (Shared/PackageShared.cs): SharedSourcesTests. -->
+    <None Include="..\ClaudeBarWin.csproj" Link="TestData\projects\ClaudeBarWin.csproj" CopyToOutputDirectory="PreserveNewest" />
+    <None Include="..\ClaudeBarWin.Helper\ClaudeBarWin.Helper.csproj" Link="TestData\projects\ClaudeBarWin.Helper.csproj" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+
+</Project>

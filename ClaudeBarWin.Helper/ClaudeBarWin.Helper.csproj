@@ -1,0 +1,29 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net9.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <AssemblyName>claudebar-helper</AssemblyName>
+    <RootNamespace>ClaudeBarWin.Helper</RootNamespace>
+    <Version>0.4.0</Version>
+    <IncludeSourceRevisionInInformationalVersion>false</IncludeSourceRevisionInInformationalVersion>
+    <InvariantGlobalization>true</InvariantGlobalization>
+    <IsAotCompatible>true</IsAotCompatible>
+    <!-- Lo que se ve del helper (Administrador de tareas): de Muesca. El nombre del exe no cambia (lo llevan los hooks de
+         ~/.claude/settings.json; docs/branding.md). -->
+    <Product>Muesca</Product>
+    <AssemblyTitle>Muesca: ayudante de Claude Code</AssemblyTitle>
+    <Company>Bekay</Company>
+    <Authors>Bekay</Authors>
+    <Copyright>© 2026 Bekay</Copyright>
+  </PropertyGroup>
+  <ItemGroup>
+    <InternalsVisibleTo Include="ClaudeBarWin.Helper.Tests" />
+  </ItemGroup>
+  <ItemGroup>
+    <!-- Lo que la app y el helper tienen que hacer igual (carpeta de datos compartida, identidad de paquete): un solo
+         archivo, que la app compila por su glob y el helper enlazado (SharedSourcesTests lo vigila). -->
+    <Compile Include="..\Shared\PackageShared.cs" Link="Shared\PackageShared.cs" />
+  </ItemGroup>
+</Project>

@@ -1,0 +1,14 @@
+<Project>
+
+  <!-- Ajustes comunes a todos los proyectos de la solución (app, helper y tests). -->
+  <PropertyGroup>
+    <Nullable>enable</Nullable>
+    <LangVersion>13.0</LangVersion>
+  </PropertyGroup>
+
+  <!-- En CI (GitHub Actions define CI=true) cualquier aviso nuevo rompe el build; en local no molesta. -->
+  <PropertyGroup Condition="'$(CI)' == 'true'">
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+  </PropertyGroup>
+
+</Project>

@@ -1,3 +1,21 @@
-.stats-token
-.wrangler/
-node_modules/
+bin/
+obj/
+*.user
+.vs/
+publish/
+dist/
+# NetSparkle signing keys — NUNCA commitear la privada
+.sparkle-keys/
+publish-helper/
+
+# Resultados de tests y cobertura
+TestResults/
+*.trx
+coverage*
+
+# IDEs y herramientas
+.idea/
+.superpowers/
+
+# Logs
+*.log

@@ -1,0 +1,62 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <!-- F5 (música): TFM con versión del SDK de Windows para proyectar WinRT (Windows.Media.Control) sin
+         paquetes NuGet. El mínimo real sigue siendo Windows 10 1809 (17763), donde aparece la API de medios. -->
+    <TargetFramework>net9.0-windows10.0.19041.0</TargetFramework>
+    <SupportedOSPlatformVersion>10.0.17763.0</SupportedOSPlatformVersion>
+    <UseWindowsForms>true</UseWindowsForms>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <AssemblyName>ClaudeBarWin</AssemblyName>
+    <RootNamespace>ClaudeBarWin</RootNamespace>
+    <Version>1.0.0</Version>
+    <!-- v0.3.10: el SDK añade "+<sha de git>" a InformationalVersion y NetSparkle (el actualizador hasta la 0.4) la
+         usaba como versión instalada; su SemVerLike trata "+sha" como pre-release → "0.3.9+sha" < "0.3.9" → la app se
+         veía SIEMPRE desactualizada y ofrecía reinstalar el mismo binario en bucle. Test: AppVersionTests. -->
+    <IncludeSourceRevisionInInformationalVersion>false</IncludeSourceRevisionInInformationalVersion>
+    <!-- Lo que ve el usuario (Administrador de tareas, Propiedades del exe, «Aplicaciones»): Muesca, de Bekay. El ensamblado,
+         los namespaces y el exe siguen siendo ClaudeBarWin a propósito (docs/branding.md). -->
+    <Product>Muesca</Product>
+    <AssemblyTitle>Muesca</AssemblyTitle>
+    <Company>Bekay</Company>
+    <Authors>Bekay</Authors>
+    <Description>Muesca, el notch para Claude Code: la cuota, las sesiones y los permisos de Claude Code en un notch para Windows. No afiliado a Anthropic.</Description>
+    <Copyright>© 2026 Bekay</Copyright>
+    <!-- El icono de Muesca (branding/muesca.ico, 16-256 px): el del exe, el del acceso directo y el de «Aplicaciones». -->
+    <ApplicationIcon>branding\muesca.ico</ApplicationIcon>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+    <ApplicationHighDpiMode>PerMonitorV2</ApplicationHighDpiMode>
+    <!-- Single-file publish friendly. Las releases de Velopack (scripts/release-velopack.ps1) publican self-contained
+         y SIN single-file: así los parches delta solo llevan los archivos que cambian. -->
+    <SelfContained>false</SelfContained>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Data.Sqlite" />
+    <PackageReference Include="Velopack" />
+    <PackageReference Include="NetSparkleUpdater.Chaos.NaCl" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <InternalsVisibleTo Include="ClaudeBarWin.Tests" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="hooks\claudebar-hook.ps1" />
+    <!-- T13b: snapshot de tarifas (models.dev, provider anthropic) — respaldo offline del catálogo. -->
+    <EmbeddedResource Include="Resources\models-pricing-snapshot.json" />
+    <!-- Icono de la letra del notch: «Apple Music Lyrics» de Icons8 (https://icons8.com), ver THIRD-PARTY-NOTICES.md. -->
+    <EmbeddedResource Include="Resources\icons\lyrics.svg" />
+  </ItemGroup>
+
+  <!-- Test and helper projects live in subfolders; exclude them from the root project's default glob. Shared\ no se
+       excluye: la app lo compila como cualquier archivo suyo y el helper lo enlaza (ClaudeBarWin.Helper.csproj). -->
+  <ItemGroup>
+    <Compile Remove="ClaudeBarWin.Tests\**\*.cs;ClaudeBarWin.Helper\**\*.cs;ClaudeBarWin.Helper.Tests\**\*.cs" />
+    <EmbeddedResource Remove="ClaudeBarWin.Tests\**;ClaudeBarWin.Helper\**;ClaudeBarWin.Helper.Tests\**" />
+    <None Remove="ClaudeBarWin.Tests\**;ClaudeBarWin.Helper\**;ClaudeBarWin.Helper.Tests\**" />
+  </ItemGroup>
+
+</Project>

@@ -1,39 +1,51 @@
-Muesca — License
+Muesca Source-Available License
 Copyright (c) 2026 Yovan Castro (Bekay). All rights reserved.
 
-Muesca (formerly "ClaudeBar for Windows") is proprietary software. This license applies to Muesca 1.0 and later.
+Muesca (formerly "ClaudeBar for Windows") is source-available software. Its source code is public so you can read it,
+learn from it, check what it does and adapt it to your own needs, but it is not open source: you may not distribute it
+or sell it. This license applies to Muesca 1.0 and later.
 
-1. Grant. You may download, install and use Muesca free of charge, for personal or commercial purposes, on any number
-   of your own devices.
+1. What you may do. Free of charge, you may:
+   a) download, install and use Muesca, for personal or commercial purposes, on any number of your own devices;
+   b) read and study the source code;
+   c) modify the source code and build your own modified version, for your own personal use or for internal use
+      within your own organization.
 
-2. Muesca Pro. The Pro features are unlocked only by a valid Muesca Pro license bought through the Microsoft Store
-   (including its free trial). You may not unlock, enable or use Pro features in any other way.
-
-3. Restrictions. Except where applicable law expressly allows it, you may not:
-   a) copy, modify, adapt, translate or create derivative works of Muesca;
-   b) decompile, disassemble or reverse engineer Muesca, or remove, disable or circumvent its license checks;
-   c) sell, rent, lend, sublicense or redistribute Muesca or any part of it, modified or not, except by sharing the
-      official download links (https://github.com/Yovancas/muesca/releases or the Microsoft Store listing);
+2. What you may not do. You may not:
+   a) distribute, publish, share or make available to others Muesca or any part of it, in source or compiled form,
+      modified or not (including hosting your modified version for others to download), except by sharing the official
+      links (https://github.com/Yovancas/muesca and the Microsoft Store listing);
+   b) sell, rent, lend, sublicense or otherwise commercialize Muesca or any modified version, or include it in another
+      product or service;
+   c) use Muesca or a modified version to unlock or use the Muesca Pro features without a valid Muesca Pro license
+      bought through the Microsoft Store (including its free trial);
    d) remove or alter any copyright, trademark or license notice.
 
-4. Third-party components. Muesca includes third-party components that are licensed under their own terms. Those
-   terms are listed in THIRD-PARTY-NOTICES.md and prevail for those components.
+3. Forks on GitHub. Forking the repository on GitHub only to propose changes back through a pull request is allowed.
 
-5. Earlier versions. The versions of "ClaudeBar for Windows" up to and including 0.3.9 were published under the MIT
+4. Contributions. If you send a contribution (a pull request, a patch or code in an issue), you grant the licensor a
+   perpetual, worldwide, irrevocable, royalty-free license to use, modify, relicense and distribute it as part of Muesca,
+   and you confirm that you have the right to grant it.
+
+5. Third-party components. Muesca includes third-party components that are licensed under their own terms. Those terms
+   are listed in THIRD-PARTY-NOTICES.md and prevail for those components. The anonymous usage counter's server
+   (server/stats-worker) is licensed separately under the MIT License (see its LICENSE file).
+
+6. Earlier versions. The versions of "ClaudeBar for Windows" up to and including 0.3.9 were published under the MIT
    License and remain available under it at https://github.com/Yovancas/claudebar-win. That code is still MIT; this
    license does not change it. It covers only the code and features added from Muesca 1.0 onward.
 
-6. Trademarks. "Muesca" and "Bekay" and their logos belong to their owner. "Claude" is a trademark of Anthropic. Muesca
-   is not affiliated with Anthropic.
-
-7. Privacy. What Muesca reads and sends is described in PRIVACY.md.
+7. Trademarks. This license grants no rights to the names "Muesca" and "Bekay" or their logos. A modified version must
+   not be presented as the official Muesca. "Claude" is a trademark of Anthropic. Muesca is not affiliated with
+   Anthropic.
 
 8. No warranty. MUESCA IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED
    TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
    AUTHOR BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
    ARISING FROM, OUT OF OR IN CONNECTION WITH MUESCA OR THE USE OR OTHER DEALINGS IN IT, TO THE EXTENT PERMITTED BY LAW.
 
-9. Termination. This license ends automatically if you break it. When it ends, you must stop using Muesca and delete
-   your copies.
+9. Termination. This license ends automatically if you break it. When it ends, you must stop using Muesca and any
+   modified version and delete your copies.
 
-Purchases made through the Microsoft Store are also subject to the Microsoft Store terms.
+Purchases made through the Microsoft Store are also subject to the Microsoft Store terms. What Muesca reads and sends
+is described in PRIVACY.md.
