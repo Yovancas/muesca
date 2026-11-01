@@ -1,0 +1,63 @@
+name: Reportar un error
+description: Algo no funciona como debería en Muesca.
+title: "[Bug] "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Gracias por reportarlo. **No pegues tokens, credenciales ni transcripts reales.**
+        Si es un problema de seguridad, no abras un issue: sigue `SECURITY.md`.
+  - type: textarea
+    id: what
+    attributes:
+      label: Qué pasa
+      description: Describe el error y qué esperabas que pasara.
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Pasos para reproducirlo
+      placeholder: |
+        1. Abrir el panel…
+        2. Activar…
+        3. Ver el error…
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: Versión de Muesca
+      description: Ajustes → Acerca de.
+      placeholder: "0.4.0"
+    validations:
+      required: true
+  - type: input
+    id: windows
+    attributes:
+      label: Windows
+      placeholder: "Windows 11 24H2, escalado 150 %"
+    validations:
+      required: true
+  - type: dropdown
+    id: features
+    attributes:
+      label: Funciones activadas
+      multiple: true
+      options:
+        - Sesiones en vivo (hooks)
+        - Cuota desde Claude Code (statusline)
+        - Actualizar tarifas online
+        - Auto-actualización
+        - Ninguna de las anteriores
+  - type: textarea
+    id: logs
+    attributes:
+      label: Log de diagnóstico
+      description: Extracto relevante de `%APPDATA%\ClaudeBarWin\claudebar.log` (no contiene tokens). Revísalo antes de pegarlo.
+      render: text
+  - type: textarea
+    id: extra
+    attributes:
+      label: Capturas o contexto adicional

@@ -1,0 +1,15 @@
+{
+  "name": "claudebar-stats",
+  "main": "src/index.js",
+  "compatibility_date": "2026-10-01",
+  "workers_dev": true,
+  // Sin registros: no se guarda nada de las peticiones (ni IPs).
+  "observability": { "enabled": false },
+  "d1_databases": [
+    { "binding": "DB", "database_name": "claudebar-stats", "database_id": "8c624597-085f-448a-b159-3c241c75c22c" }
+  ],
+  // Límite por IP en memoria de Cloudflare (no se almacena): 20 avisos por minuto.
+  "ratelimits": [
+    { "name": "LIMITER", "namespace_id": "1001", "simple": { "limit": 20, "period": 60 } }
+  ]
+}

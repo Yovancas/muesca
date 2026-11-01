@@ -1,0 +1,29 @@
+name: Proponer una mejora
+description: Una idea o función nueva para Muesca.
+title: "[Idea] "
+labels: ["enhancement"]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Qué problema resuelve
+      description: Qué te falta o te molesta hoy al usar Muesca.
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Propuesta
+      description: Cómo te gustaría que funcionara.
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternativas que has considerado
+  - type: checkboxes
+    id: privacy
+    attributes:
+      label: Privacidad
+      options:
+        - label: La propuesta no requiere enviar datos del usuario fuera de su máquina (aparte del contador anónimo de PRIVACY.md, Muesca no manda nada del usuario).
