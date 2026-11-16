@@ -14,7 +14,7 @@
     <PackageVersion Include="Velopack" Version="1.2.161" />
     <!-- Ed25519 para verificar la firma del manifiesto de cada release: la misma librería con la que NetSparkle
          verificaba las actualizaciones hasta la 0.4 (y la misma clave). -->
-    <PackageVersion Include="NetSparkleUpdater.Chaos.NaCl" Version="0.9.4" />
+    <PackageVersion Include="NetSparkleUpdater.Chaos.NaCl" Version="0.9.5" />
   </ItemGroup>
 
   <!-- Tests -->
