@@ -8,7 +8,7 @@
 
   <!-- App -->
   <ItemGroup>
-    <PackageVersion Include="Microsoft.Data.Sqlite" Version="9.0.0" />
+    <PackageVersion Include="Microsoft.Data.Sqlite" Version="10.0.15" />
     <!-- Instalación y actualizaciones (docs/velopack-migracion.md). vpk, la herramienta de scripts/release-velopack.ps1,
          tiene que ir en la MISMA versión que este paquete. -->
     <PackageVersion Include="Velopack" Version="1.2.161" />
